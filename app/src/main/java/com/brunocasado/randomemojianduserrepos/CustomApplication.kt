@@ -1,20 +1,24 @@
 package com.brunocasado.randomemojianduserrepos
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import android.app.Application
+import com.brunocasado.randomemojianduserrepos.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), HasActivityInjector {
+class CustomApplication : Application(), HasActivityInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun onCreate() {
+        super.onCreate()
+        DaggerAppComponent
+            .builder()
+            .application(this)
+            .build()
+            .inject(this)
     }
 
     override fun activityInjector(): AndroidInjector<Activity> = dispatchingAndroidInjector
