@@ -3,6 +3,7 @@ package com.brunocasado.randomemojianduserrepos.di.module
 import android.app.Application
 import com.brunocasado.randomemojianduserrepos.BuildConfig
 import com.brunocasado.randomemojianduserrepos.datasource.network.ApiService
+import com.brunocasado.randomemojianduserrepos.datasource.network.GsonHandler
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -57,11 +58,19 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun providesGsonConvertFactory(): GsonConverterFactory {
+        return GsonConverterFactory.create(GsonHandler.gson)
+    }
+
+    @Provides
+    @Singleton
     fun provideRetrofit(
-        okHttpClient: OkHttpClient
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(ApiService.API_URL)
+            .addConverterFactory(gsonConverterFactory)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
