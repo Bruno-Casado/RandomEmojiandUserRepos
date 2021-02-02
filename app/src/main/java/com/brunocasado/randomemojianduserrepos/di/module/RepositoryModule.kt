@@ -8,6 +8,7 @@ import com.brunocasado.randomemojianduserrepos.datasource.repository.EmojiReposi
 import dagger.Module
 import dagger.Provides
 
+@Suppress("unused")
 @Module
 class RepositoryModule {
     @Provides
