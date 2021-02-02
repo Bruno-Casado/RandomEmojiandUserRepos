@@ -2,9 +2,9 @@ package com.brunocasado.randomemojianduserrepos.di
 
 import android.app.Application
 import com.brunocasado.randomemojianduserrepos.CustomApplication
-import com.brunocasado.randomemojianduserrepos.di.module.ApplicationModule
 import com.brunocasado.randomemojianduserrepos.di.module.NetworkModule
 import com.brunocasado.randomemojianduserrepos.di.module.RepositoryModule
+import com.brunocasado.randomemojianduserrepos.di.module.UseCaseModule
 import com.brunocasado.randomemojianduserrepos.di.module.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
@@ -19,7 +19,7 @@ import javax.inject.Singleton
         ViewModelModule::class,
         NetworkModule::class,
         RepositoryModule::class,
-        ApplicationModule::class
+        UseCaseModule::class
     ]
 )
 interface AppComponent {
