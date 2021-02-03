@@ -12,6 +12,5 @@ abstract class EmojiDao {
     abstract fun insert(vararg emojis: Emoji)
 
     @Query("SELECT * FROM Emoji")
-    abstract fun getEmojiList(): List<Emoji>
-
+    abstract suspend fun getEmojiList(): List<Emoji>
 }
