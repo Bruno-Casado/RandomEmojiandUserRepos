@@ -71,7 +71,6 @@ class EmojiRepositoryImpl @Inject constructor(
     }
 
     private suspend fun getEmojiListFromDisk(): Either<Failure, List<Emoji>> {
-        val result = persistenceSource.getEmojiList()
-        return result
+        return persistenceSource.getEmojiList()
     }
 }
