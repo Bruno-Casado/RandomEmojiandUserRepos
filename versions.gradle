@@ -6,4 +6,5 @@ ext {
     coroutineVersion = '1.3.3'
     lifecycleVersion = '2.2.0'
     mockitoVersion = '3.3.3'
+    glideVersion = '4.12.0'
 }
