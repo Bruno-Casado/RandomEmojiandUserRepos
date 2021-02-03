@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Random Emoji and User Repos</string>
+    <string name="get_emoji_button">Get Emoji</string>
+    <string name="get_random_emoji_button">Get Emoji</string>
+    <string name="network_connection_error_message">Verify your network connection and try again</string>
+    <string name="persistence_error_message">Some error occurs on Database. Try again later</string>
+    <string name="server_error_message">Server error. Try again later</string>
+    <string name="success_message">Emoji List Fetched with success</string>
+    <string name="random_emoji_error_message">Error selecting Random Emoji</string>
 </resources>

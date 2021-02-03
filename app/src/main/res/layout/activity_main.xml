@@ -1,28 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.brunocasado.randomemojianduserrepos.MainActivityViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
+        <ImageView
+            android:id="@+id/randomEmojiImageView"
+            android:layout_width="@dimen/emojiSize"
+            android:layout_height="@dimen/emojiSize"
+            android:layout_marginBottom="@dimen/margin"
+            app:layout_constraintBottom_toTopOf="@id/getEmojiButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
+
         <Button
+            android:id="@+id/getEmojiButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Get Emoji"
-            android:onClick="@{viewModel.emoji}"
+            android:enabled="@{!viewModel.isLoading()}"
+            android:onClick="@{() -> viewModel.getEmoji()}"
+            android:text="@string/get_emoji_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/get_emoji_button" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/getEmojiButton"
+            app:layout_constraintLeft_toRightOf="@id/getEmojiButton"
+            app:layout_constraintTop_toTopOf="@id/getEmojiButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
