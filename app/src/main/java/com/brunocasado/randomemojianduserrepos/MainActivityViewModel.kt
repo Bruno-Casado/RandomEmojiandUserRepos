@@ -9,6 +9,7 @@ import com.brunocasado.randomemojianduserrepos.core.exception.Failure
 import com.brunocasado.randomemojianduserrepos.datasource.entity.Emoji
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 class MainActivityViewModel @Inject constructor(
@@ -53,7 +54,11 @@ class MainActivityViewModel @Inject constructor(
     }
 
     fun showRandomEmoji() {
-        val randomEmoji = emojis.value?.random()
+        val randomEmoji = try {
+            emojis.value?.random()
+        } catch (ex: Exception) {
+            null
+        }
         randomEmoji?.let {
             loadUrlIntoImageView(it)
         } ?: showLoadEmojiIntoImageViewError()
