@@ -8,4 +8,6 @@
     <string name="server_error_message">Server error. Try again later</string>
     <string name="success_message">Emoji List Fetched with success</string>
     <string name="random_emoji_error_message">Error selecting Random Emoji</string>
+    <string name="search_input_hint">Insert user name</string>
+    <string name="search_image_button_content_description">Search Button</string>
 </resources>
