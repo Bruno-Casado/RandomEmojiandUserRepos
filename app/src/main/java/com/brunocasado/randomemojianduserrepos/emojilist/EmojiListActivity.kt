@@ -8,13 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.brunocasado.randomemojianduserrepos.MainActivityViewModel
 import com.brunocasado.randomemojianduserrepos.R
 import com.brunocasado.randomemojianduserrepos.databinding.ActivityEmojiListBinding
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
-class EmojiListActivity : AppCompatActivity() {
+class EmojiListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -39,13 +40,16 @@ class EmojiListActivity : AppCompatActivity() {
             emojiListViewModel.removeEmojiFromList(it)
         }
         binding.emojiRecyclerView.adapter = listAdapter
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun initViewModel() {
         emojiListViewModel.emojis.observe(this, {
             listAdapter.submitList(it)
         })
-
+        emojiListViewModel.isLoading.observe(this, {
+            binding.swipeRefreshLayout.isRefreshing = it
+        })
         emojiListViewModel.showSuccessMessage = {
             Log.d("EmojiListActivity", "success")
         }
@@ -59,5 +63,9 @@ class EmojiListActivity : AppCompatActivity() {
 
     companion object {
         private const val EMOJI_SIZE = 128
+    }
+
+    override fun onRefresh() {
+        emojiListViewModel.getEmoji()
     }
 }
