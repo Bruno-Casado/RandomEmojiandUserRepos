@@ -1,5 +1,6 @@
 package com.brunocasado.randomemojianduserrepos
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +10,6 @@ import com.brunocasado.randomemojianduserrepos.core.exception.Failure
 import com.brunocasado.randomemojianduserrepos.datasource.entity.Emoji
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 class MainActivityViewModel @Inject constructor(
@@ -22,6 +22,7 @@ class MainActivityViewModel @Inject constructor(
     lateinit var showSuccessMessage: () -> Unit
     lateinit var loadUrlIntoImageView: (Emoji) -> Unit
     lateinit var showLoadEmojiIntoImageViewError: () -> Unit
+    lateinit var openEmojiListActivityAction: () -> Unit
 
     private val _emojis = MutableLiveData<List<Emoji>>().apply { value = emptyList() }
     val emojis: LiveData<List<Emoji>> = _emojis
@@ -62,6 +63,16 @@ class MainActivityViewModel @Inject constructor(
         randomEmoji?.let {
             loadUrlIntoImageView(it)
         } ?: showLoadEmojiIntoImageViewError()
+    }
+
+    fun openEmojiListActivity() = View.OnClickListener {
+        openEmojiListActivityAction()
+    }
+
+    fun removeEmojiFromList(emoji: Emoji) {
+        _emojis.value?.let {
+            _emojis.value = it.minusElement(emoji)
+        }
     }
 
     private fun handleGetEmojiListSuccess(emojiList: List<Emoji>) {

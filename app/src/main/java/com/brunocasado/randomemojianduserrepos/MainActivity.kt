@@ -1,14 +1,15 @@
 package com.brunocasado.randomemojianduserrepos
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.brunocasado.randomemojianduserrepos.databinding.ActivityMainBinding
+import com.brunocasado.randomemojianduserrepos.emojilist.EmojiListActivity
 import com.bumptech.glide.Glide
 import dagger.android.AndroidInjection
 import javax.inject.Inject
@@ -62,18 +63,26 @@ class MainActivity : AppCompatActivity() {
             loadImageInto(emoji.url, binding.randomEmojiImageView)
             setContentDescriptionOnImageView(emoji.name, binding.randomEmojiImageView)
         }
+        mainActivityViewModel.openEmojiListActivityAction = {
+            openEmojiListActivity()
+        }
     }
 
     private fun showToast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 
+    private fun loadImageInto(url: String, imageView: ImageView) {
+        Glide.with(this).load(url).into(imageView)
+    }
+
     private fun setContentDescriptionOnImageView(contentDescription: String, imageView: ImageView) {
         imageView.contentDescription = contentDescription
     }
 
-    private fun loadImageInto(url: String, imageView: ImageView) {
-        Glide.with(this).load(url).into(imageView)
+    private fun openEmojiListActivity() {
+        val intent = Intent(this, EmojiListActivity::class.java)
+        startActivity(intent)
     }
 
     private fun observeEmojis() {
