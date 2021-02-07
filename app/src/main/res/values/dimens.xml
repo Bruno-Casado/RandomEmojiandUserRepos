@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin">16dp</dimen>
-    <dimen name="emojiSize">128dp</dimen>
+    <dimen name="emoji_size">128dp</dimen>
     <dimen name="emoji_stroke_width">1dp</dimen>
     <dimen name="emoji_stroke_radius">5dp</dimen>
 </resources>

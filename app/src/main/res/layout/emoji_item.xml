@@ -9,8 +9,8 @@
 
         <ImageView
             android:id="@+id/emojiImageView"
-            android:layout_width="@dimen/emojiSize"
-            android:layout_height="@dimen/emojiSize"
+            android:layout_width="@dimen/emoji_size"
+            android:layout_height="@dimen/emoji_size"
             android:layout_marginStart="@dimen/margin"
             android:layout_marginTop="@dimen/margin"
             android:layout_marginEnd="@dimen/margin"
