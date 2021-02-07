@@ -2,4 +2,6 @@
 <resources>
     <dimen name="margin">16dp</dimen>
     <dimen name="emojiSize">128dp</dimen>
+    <dimen name="emoji_stroke_width">1dp</dimen>
+    <dimen name="emoji_stroke_radius">5dp</dimen>
 </resources>
