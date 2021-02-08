@@ -11,6 +11,4 @@ data class User(
     val id: Int,
     @SerializedName("avatar_url")
     val avatarUrl: String
-) {
-    fun isEmpty(): Boolean = this.login.isEmpty()
-}
+)

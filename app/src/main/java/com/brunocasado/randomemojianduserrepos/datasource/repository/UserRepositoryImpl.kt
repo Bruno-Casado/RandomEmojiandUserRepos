@@ -35,7 +35,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun shouldFetchFromNetwork(user: User): Boolean = user.isEmpty()
+    private fun shouldFetchFromNetwork(user: User?): Boolean = user == null
 
     private suspend fun handleNetworkRequest(networkRequest: Either<Failure, User>): Either<Failure, User> {
         val databaseRequest = when (networkRequest) {
