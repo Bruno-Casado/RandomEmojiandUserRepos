@@ -8,12 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.brunocasado.randomemojianduserrepos.core.Either
 import com.brunocasado.randomemojianduserrepos.core.exception.Failure
 import com.brunocasado.randomemojianduserrepos.datasource.entity.Emoji
+import com.brunocasado.randomemojianduserrepos.datasource.entity.User
+import com.brunocasado.randomemojianduserrepos.useravatar.UserUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainActivityViewModel @Inject constructor(
-    private val emojiListUseCase: EmojiListUseCase
+    private val emojiListUseCase: EmojiListUseCase,
+    private val userUseCase: UserUseCase
 ) : ViewModel() {
 
     lateinit var showNetworkConnectionError: () -> Unit
@@ -23,12 +26,15 @@ class MainActivityViewModel @Inject constructor(
     lateinit var loadUrlIntoImageView: (Emoji) -> Unit
     lateinit var showLoadEmojiIntoImageViewError: () -> Unit
     lateinit var openEmojiListActivityAction: () -> Unit
+    lateinit var displayAvatarOnEmojiImageHolder: (String) -> Unit
 
     private val _emojis = MutableLiveData<List<Emoji>>().apply { value = emptyList() }
     val emojis: LiveData<List<Emoji>> = _emojis
 
     private val _isLoading = MutableLiveData<Boolean>().apply { value = false }
     val isLoading: LiveData<Boolean> = _isLoading
+
+    var userLogin: String = ""
 
     init {
         getEmoji()
@@ -75,6 +81,22 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
+    fun getUser() {
+        _isLoading.value = true
+        viewModelScope.launch {
+            val userFuture = async {
+                userUseCase.invoke(userLogin)
+            }
+
+            val userFutureResult = userFuture.await()
+            when (userFutureResult) {
+                is Either.Left -> handleGetUserError(userFutureResult.a)
+                is Either.Right -> handleGetUserSuccess(userFutureResult.b)
+            }
+        }
+        _isLoading.value = false
+    }
+
     private fun handleGetEmojiListSuccess(emojiList: List<Emoji>) {
         _emojis.value = emojiList
         showSuccessMessage()
@@ -82,11 +104,23 @@ class MainActivityViewModel @Inject constructor(
 
     private fun handleGetEmojiListError(failure: Failure) {
         when (failure) {
-            is Failure.NetworkConnection -> showNetworkConnectionError()
+            Failure.NetworkConnection -> showNetworkConnectionError()
             is EmojiFailure.SaveEmojiListPersistenceError -> showPersistenceError()
             is EmojiFailure.GetEmojiListPersistenceError -> showPersistenceError()
             is EmojiFailure.ServerError -> showServerError()
             else -> showServerError()
         }
+    }
+
+    private fun handleGetUserError(failure: Failure) {
+        when (failure) {
+            Failure.NetworkConnection -> showNetworkConnectionError()
+            Failure.ServerError -> showServerError()
+            is Failure.FeatureFailure -> showPersistenceError()
+        }
+    }
+
+    private fun handleGetUserSuccess(user: User) {
+        displayAvatarOnEmojiImageHolder(user.avatarUrl)
     }
 }

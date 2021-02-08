@@ -36,6 +36,10 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = mainActivityViewModel
         binding.lifecycleOwner = this
+        binding.searchUserNameButton.setOnClickListener {
+            mainActivityViewModel.userLogin = binding.searchUserNameInput.text.toString()
+            mainActivityViewModel.getUser()
+        }
     }
 
     private fun initViewModel() {
@@ -65,6 +69,9 @@ class MainActivity : AppCompatActivity() {
         }
         mainActivityViewModel.openEmojiListActivityAction = {
             openEmojiListActivity()
+        }
+        mainActivityViewModel.displayAvatarOnEmojiImageHolder = { userAvatar ->
+            loadImageInto(userAvatar, binding.randomEmojiImageView)
         }
     }
 
