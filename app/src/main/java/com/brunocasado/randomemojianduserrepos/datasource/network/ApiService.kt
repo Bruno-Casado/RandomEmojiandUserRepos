@@ -1,6 +1,7 @@
 package com.brunocasado.randomemojianduserrepos.datasource.network
 
 import com.brunocasado.randomemojianduserrepos.datasource.entity.EmojiResponse
+import com.brunocasado.randomemojianduserrepos.datasource.entity.User
 import retrofit2.http.GET
 
 interface ApiService {
@@ -12,4 +13,7 @@ interface ApiService {
 
     @GET(EMOJIS)
     suspend fun getEmojiList(): EmojiResponse
+
+    @GET("users/{user}")
+    suspend fun getUser(): User
 }
