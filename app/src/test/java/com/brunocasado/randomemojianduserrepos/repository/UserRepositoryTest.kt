@@ -65,10 +65,10 @@ class UserRepositoryTest {
         whenever(networkInfo.isNetworkAvailable()).thenReturn(false)
 
         runBlocking {
-            whenever(persistenceSource.getUser()).thenReturn(Either.Right(User("", 0, "")))
+            whenever(persistenceSource.getUserByLogin("")).thenReturn(Either.Right(User("", 0, "")))
 
             launch(Dispatchers.Main) {
-                val result = repository.getUser()
+                val result = repository.getUser("")
 
                 Assert.assertThat(result.isLeft, CoreMatchers.`is`(true))
                 Assert.assertThat(
@@ -76,7 +76,7 @@ class UserRepositoryTest {
                     CoreMatchers.instanceOf(Failure.NetworkConnection.javaClass)
                 )
 
-                Mockito.verify(persistenceSource).getUser()
+                Mockito.verify(persistenceSource).getUserByLogin("")
                 Mockito.verifyNoMoreInteractions(persistenceSource)
                 Mockito.verifyNoInteractions(apiService)
             }
@@ -88,15 +88,15 @@ class UserRepositoryTest {
         whenever(networkInfo.isNetworkAvailable()).thenReturn(false)
 
         runBlocking {
-            whenever(persistenceSource.getUser()).thenReturn(Either.Right(user))
+            whenever(persistenceSource.getUserByLogin("Bruno-Casado")).thenReturn(Either.Right(user))
 
             launch(Dispatchers.Main) {
-                val result = repository.getUser()
+                val result = repository.getUser("Bruno-Casado")
 
                 Assert.assertThat(result.isRight, CoreMatchers.`is`(true))
                 Assert.assertThat((result as Either.Right).b, CoreMatchers.`is`(user))
 
-                Mockito.verify(persistenceSource).getUser()
+                Mockito.verify(persistenceSource).getUserByLogin("Bruno-Casado")
                 Mockito.verifyNoMoreInteractions(persistenceSource)
                 Mockito.verifyNoInteractions(apiService)
             }
@@ -106,10 +106,10 @@ class UserRepositoryTest {
     @Test
     fun `when occurs some error getUser database request then should return GetUserPersistenceError Failure`() {
         runBlocking {
-            whenever(persistenceSource.getUser()).thenReturn(Either.Left(UserFailure.GetUserPersistenceError))
+            whenever(persistenceSource.getUserByLogin("Bruno-Casado")).thenReturn(Either.Left(UserFailure.GetUserPersistenceError))
 
             launch(Dispatchers.Main) {
-                val result = repository.getUser()
+                val result = repository.getUser("Bruno-Casado")
 
                 Assert.assertThat(result.isLeft, CoreMatchers.`is`(true))
                 Assert.assertThat(
@@ -117,7 +117,7 @@ class UserRepositoryTest {
                     CoreMatchers.instanceOf(UserFailure.GetUserPersistenceError.javaClass)
                 )
 
-                Mockito.verify(persistenceSource).getUser()
+                Mockito.verify(persistenceSource).getUserByLogin("Bruno-Casado")
                 Mockito.verifyNoMoreInteractions(persistenceSource)
                 Mockito.verifyNoInteractions(apiService)
             }
@@ -129,22 +129,22 @@ class UserRepositoryTest {
         whenever(networkInfo.isNetworkAvailable()).thenReturn(true)
 
         runBlocking {
-            whenever(persistenceSource.getUser()).thenReturn(
+            whenever(persistenceSource.getUserByLogin("Bruno-Casado")).thenReturn(
                 Either.Right(User("", 0, "")),
                 Either.Right(user)
             )
-            whenever(apiService.getUser()).thenReturn(user)
+            whenever(apiService.getUser("Bruno-Casado")).thenReturn(user)
             whenever(persistenceSource.saveUser(user)).thenReturn(Either.Right(UserSuccess.SaveUserSuccess))
 
             launch(Dispatchers.Main) {
-                val result = repository.getUser()
+                val result = repository.getUser("Bruno-Casado")
 
                 Assert.assertThat(result.isRight, CoreMatchers.`is`(true))
                 Assert.assertThat((result as Either.Right).b, CoreMatchers.`is`(user))
 
-                Mockito.verify(persistenceSource, Mockito.times(2)).getUser()
+                Mockito.verify(persistenceSource, Mockito.times(2)).getUserByLogin("Bruno-Casado")
                 Mockito.verify(persistenceSource).saveUser(user)
-                Mockito.verify(apiService).getUser()
+                Mockito.verify(apiService).getUser("Bruno-Casado")
             }
         }
     }
@@ -154,12 +154,12 @@ class UserRepositoryTest {
         whenever(networkInfo.isNetworkAvailable()).thenReturn(true)
 
         runBlocking {
-            whenever(persistenceSource.getUser()).thenReturn(Either.Right(User("", 0, "")))
-            whenever(apiService.getUser()).thenReturn(user)
+            whenever(persistenceSource.getUserByLogin("Bruno-Casado")).thenReturn(Either.Right(User("", 0, "")))
+            whenever(apiService.getUser("Bruno-Casado")).thenReturn(user)
             whenever(persistenceSource.saveUser(user)).thenReturn(Either.Left(UserFailure.SaveUserPersistenceError))
 
             launch(Dispatchers.Main) {
-                val result = repository.getUser()
+                val result = repository.getUser("Bruno-Casado")
 
                 Assert.assertThat(result.isLeft, CoreMatchers.`is`(true))
                 Assert.assertThat(
@@ -167,10 +167,10 @@ class UserRepositoryTest {
                     CoreMatchers.instanceOf(UserFailure.SaveUserPersistenceError.javaClass)
                 )
 
-                Mockito.verify(persistenceSource).getUser()
+                Mockito.verify(persistenceSource).getUserByLogin("Bruno-Casado")
                 Mockito.verify(persistenceSource).saveUser(user)
                 Mockito.verifyNoMoreInteractions(persistenceSource)
-                Mockito.verify(apiService).getUser()
+                Mockito.verify(apiService).getUser("Bruno-Casado")
             }
         }
     }

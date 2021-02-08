@@ -17,14 +17,14 @@ class UserRepositoryImpl @Inject constructor(
     private val networkInfo: NetworkInfo
 ) : UserRepository {
 
-    override suspend fun getUser(userRequest: String): Either<Failure, User> {
-        val user = getUserFromDisk()
+    override suspend fun getUser(login: String): Either<Failure, User> {
+        val user = getUserFromDisk(login)
         return when (user) {
             is Either.Left -> user
             is Either.Right -> {
                 if (shouldFetchFromNetwork(user.b)) {
                     if (networkInfo.isNetworkAvailable()) {
-                        handleNetworkRequest(loadUserFromNetwork(userRequest))
+                        handleNetworkRequest(loadUserFromNetwork(login))
                     } else {
                         Either.Left(Failure.NetworkConnection)
                     }
@@ -48,7 +48,7 @@ class UserRepositoryImpl @Inject constructor(
         }
         return when (databaseRequest) {
             is Either.Left -> databaseRequest
-            is Either.Right -> getUserFromDisk()
+            is Either.Right -> getUserFromDisk(networkRequest.b.login)
         }
     }
 
@@ -69,7 +69,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun getUserFromDisk(): Either<Failure, User> {
-        return persistenceSource.getUser()
+    private suspend fun getUserFromDisk(login: String): Either<Failure, User> {
+        return persistenceSource.getUserByLogin(login)
     }
 }

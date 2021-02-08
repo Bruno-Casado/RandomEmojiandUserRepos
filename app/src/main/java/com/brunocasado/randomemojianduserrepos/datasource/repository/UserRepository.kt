@@ -5,5 +5,5 @@ import com.brunocasado.randomemojianduserrepos.core.exception.Failure
 import com.brunocasado.randomemojianduserrepos.datasource.entity.User
 
 interface UserRepository {
-    suspend fun getUser(user: String): Either<Failure, User>
+    suspend fun getUser(login: String): Either<Failure, User>
 }

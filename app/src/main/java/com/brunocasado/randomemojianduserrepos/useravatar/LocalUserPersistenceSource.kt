@@ -12,9 +12,9 @@ class LocalUserPersistenceSource @Inject constructor(
     private val database: Database,
     private val userDao: UserDao
 ) : UserPersistenceSource {
-    override suspend fun getUser(): Either<Failure, User> {
+    override suspend fun getUserByLogin(login: String): Either<Failure, User> {
         return try {
-            Either.Right(userDao.getUser())
+            Either.Right(userDao.getUser(login))
         } catch (ex: Exception) {
             Either.Left(UserFailure.GetUserPersistenceError)
         }
