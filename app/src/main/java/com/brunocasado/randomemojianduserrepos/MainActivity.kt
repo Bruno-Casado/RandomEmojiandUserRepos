@@ -8,37 +8,27 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.brunocasado.randomemojianduserrepos.core.BaseActivity
 import com.brunocasado.randomemojianduserrepos.databinding.ActivityMainBinding
 import com.brunocasado.randomemojianduserrepos.emojilist.EmojiListActivity
 import com.bumptech.glide.Glide
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val mainActivityViewModel: MainActivityViewModel by viewModels {
-        viewModelFactory
-    }
-
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         initBinding()
         initViewModel()
     }
 
     private fun initBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.viewModel = mainActivityViewModel
+        binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.searchUserNameButton.setOnClickListener {
-            mainActivityViewModel.userLogin = binding.searchUserNameInput.text.toString()
-            mainActivityViewModel.getUser()
+            viewModel.userLogin = binding.searchUserNameInput.text.toString()
+            viewModel.getUser()
         }
     }
 
@@ -48,29 +38,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewModelActions() {
-        mainActivityViewModel.showNetworkConnectionError = {
+        viewModel.showNetworkConnectionError = {
             showToast(getString(R.string.network_connection_error_message))
         }
-        mainActivityViewModel.showPersistenceError = {
+        viewModel.showPersistenceError = {
             showToast(getString(R.string.persistence_error_message))
         }
-        mainActivityViewModel.showServerError = {
+        viewModel.showServerError = {
             showToast(getString(R.string.server_error_message))
         }
-        mainActivityViewModel.showSuccessMessage = {
+        viewModel.showSuccessMessage = {
             showToast(getString(R.string.success_message))
         }
-        mainActivityViewModel.showLoadEmojiIntoImageViewError = {
+        viewModel.showLoadEmojiIntoImageViewError = {
             showToast(getString(R.string.random_emoji_error_message))
         }
-        mainActivityViewModel.loadUrlIntoImageView = { emoji ->
+        viewModel.loadUrlIntoImageView = { emoji ->
             loadImageInto(emoji.url, binding.randomEmojiImageView)
             setContentDescriptionOnImageView(emoji.name, binding.randomEmojiImageView)
         }
-        mainActivityViewModel.openEmojiListActivityAction = {
+        viewModel.openEmojiListActivityAction = {
             openEmojiListActivity()
         }
-        mainActivityViewModel.displayAvatarOnEmojiImageHolder = { userAvatar ->
+        viewModel.displayAvatarOnEmojiImageHolder = { userAvatar ->
             loadImageInto(userAvatar, binding.randomEmojiImageView)
         }
     }
@@ -93,13 +83,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeEmojis() {
-        mainActivityViewModel.emojis.observe(this, {
+        viewModel.emojis.observe(this, {
             if (it.isNullOrEmpty()) {
                 binding.getEmojiButton.text = getText(R.string.get_emoji_button)
             } else {
                 binding.getEmojiButton.text = getText(R.string.get_random_emoji_button)
                 binding.getEmojiButton.setOnClickListener {
-                    mainActivityViewModel.showRandomEmoji()
+                    viewModel.showRandomEmoji()
                 }
             }
         })

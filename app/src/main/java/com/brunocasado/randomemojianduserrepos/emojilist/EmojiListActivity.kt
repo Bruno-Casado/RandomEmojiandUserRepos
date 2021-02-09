@@ -3,31 +3,21 @@ package com.brunocasado.randomemojianduserrepos.emojilist
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.brunocasado.randomemojianduserrepos.MainActivityViewModel
 import com.brunocasado.randomemojianduserrepos.R
+import com.brunocasado.randomemojianduserrepos.core.BaseActivity
 import com.brunocasado.randomemojianduserrepos.databinding.ActivityEmojiListBinding
 import dagger.android.AndroidInjection
-import javax.inject.Inject
 
-class EmojiListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val emojiListViewModel: MainActivityViewModel by viewModels {
-        viewModelFactory
-    }
+class EmojiListActivity :
+    BaseActivity<MainActivityViewModel, ActivityEmojiListBinding>(R.layout.activity_emoji_list),
+    SwipeRefreshLayout.OnRefreshListener {
     private lateinit var listAdapter: EmojiListAdapter
 
-    private lateinit var binding: ActivityEmojiListBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         initBinding()
         initViewModel()
@@ -37,20 +27,20 @@ class EmojiListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListe
         binding = DataBindingUtil.setContentView(this, R.layout.activity_emoji_list)
         binding.emojiRecyclerView.layoutManager = GridLayoutManager(this, calculateNoOfColumns())
         listAdapter = EmojiListAdapter {
-            emojiListViewModel.removeEmojiFromList(it)
+            viewModel.removeEmojiFromList(it)
         }
         binding.emojiRecyclerView.adapter = listAdapter
         binding.swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun initViewModel() {
-        emojiListViewModel.emojis.observe(this, {
+        viewModel.emojis.observe(this, {
             listAdapter.submitList(it)
         })
-        emojiListViewModel.isLoading.observe(this, {
+        viewModel.isLoading.observe(this, {
             binding.swipeRefreshLayout.isRefreshing = it
         })
-        emojiListViewModel.showSuccessMessage = {
+        viewModel.showSuccessMessage = {
             Log.d("EmojiListActivity", "success")
         }
     }
@@ -66,6 +56,6 @@ class EmojiListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     override fun onRefresh() {
-        emojiListViewModel.getEmoji()
+        viewModel.getEmoji()
     }
 }
