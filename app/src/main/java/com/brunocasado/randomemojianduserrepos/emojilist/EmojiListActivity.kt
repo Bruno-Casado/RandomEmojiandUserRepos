@@ -10,7 +10,6 @@ import com.brunocasado.randomemojianduserrepos.MainActivityViewModel
 import com.brunocasado.randomemojianduserrepos.R
 import com.brunocasado.randomemojianduserrepos.core.BaseActivity
 import com.brunocasado.randomemojianduserrepos.databinding.ActivityEmojiListBinding
-import dagger.android.AndroidInjection
 
 class EmojiListActivity :
     BaseActivity<MainActivityViewModel, ActivityEmojiListBinding>(R.layout.activity_emoji_list),

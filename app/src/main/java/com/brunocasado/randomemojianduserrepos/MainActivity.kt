@@ -4,18 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.brunocasado.randomemojianduserrepos.core.BaseActivity
 import com.brunocasado.randomemojianduserrepos.databinding.ActivityMainBinding
 import com.brunocasado.randomemojianduserrepos.emojilist.EmojiListActivity
 import com.bumptech.glide.Glide
-import dagger.android.AndroidInjection
-import javax.inject.Inject
 
-class MainActivity : BaseActivity<MainActivityViewModel, ActivityMainBinding>(R.layout.activity_main) {
+class MainActivity :
+    BaseActivity<MainActivityViewModel, ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
