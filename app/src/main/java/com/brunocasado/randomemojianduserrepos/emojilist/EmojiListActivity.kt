@@ -23,7 +23,6 @@ class EmojiListActivity :
     }
 
     private fun initBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_emoji_list)
         binding.emojiRecyclerView.layoutManager = GridLayoutManager(this, calculateNoOfColumns())
         listAdapter = EmojiListAdapter {
             viewModel.removeEmojiFromList(it)

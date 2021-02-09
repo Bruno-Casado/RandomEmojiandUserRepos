@@ -23,12 +23,17 @@ abstract class BaseActivity<T : ViewModel, V : ViewDataBinding>(
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setupViewModel()
-        binding = DataBindingUtil.setContentView(this, layoutId)
+        setupDataBinding()
     }
 
     private fun setupViewModel() {
         val clazz =
             (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<T>
         viewModel = ViewModelProvider(this, viewModelFactory)[clazz]
+    }
+
+    private fun setupDataBinding() {
+        binding = DataBindingUtil.setContentView(this, layoutId)
+
     }
 }
