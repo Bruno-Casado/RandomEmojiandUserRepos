@@ -1,5 +1,6 @@
 package com.brunocasado.randomemojianduserrepos.datasource.repository
 
+import androidx.lifecycle.LiveData
 import com.brunocasado.randomemojianduserrepos.core.Either
 import com.brunocasado.randomemojianduserrepos.core.exception.Failure
 import com.brunocasado.randomemojianduserrepos.core.exception.Success
@@ -33,6 +34,14 @@ class UserRepositoryImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    override suspend fun getUserList(): Either<Failure, LiveData<List<User>>> {
+        return persistenceSource.getUserList()
+    }
+
+    override suspend fun deleteUser(user: User): Either<Failure, Success> {
+        return persistenceSource.deleteUser(user)
     }
 
     private fun shouldFetchFromNetwork(user: User?): Boolean = user == null
