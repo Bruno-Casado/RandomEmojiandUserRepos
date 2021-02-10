@@ -5,4 +5,6 @@ import com.brunocasado.randomemojianduserrepos.core.exception.Failure
 sealed class UserFailure : Failure.FeatureFailure() {
     object GetUserPersistenceError : UserFailure()
     object SaveUserPersistenceError : UserFailure()
+    object GetUserListPersistenceError : UserFailure()
+    object DeleteUserPersistenceError : UserFailure()
 }

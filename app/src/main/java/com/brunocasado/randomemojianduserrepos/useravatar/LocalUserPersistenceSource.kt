@@ -1,5 +1,6 @@
 package com.brunocasado.randomemojianduserrepos.useravatar
 
+import androidx.lifecycle.LiveData
 import com.brunocasado.randomemojianduserrepos.core.Either
 import com.brunocasado.randomemojianduserrepos.core.exception.Failure
 import com.brunocasado.randomemojianduserrepos.core.exception.Success
@@ -28,6 +29,23 @@ class LocalUserPersistenceSource @Inject constructor(
             Either.Right(UserSuccess.SaveUserSuccess)
         } catch (ex: Exception) {
             Either.Left(UserFailure.SaveUserPersistenceError)
+        }
+    }
+
+    override fun getUserList(): Either<Failure, LiveData<List<User>>> {
+        return try {
+            Either.Right(userDao.getUserList())
+        } catch (ex: Exception) {
+            Either.Left(UserFailure.GetUserListPersistenceError)
+        }
+    }
+
+    override suspend fun deleteUser(user: User): Either<Failure, Success> {
+        return try {
+            userDao.deleteUser(user)
+            Either.Right(UserSuccess.DeleteUserSuccess)
+        } catch (ex: Exception) {
+            Either.Left(UserFailure.DeleteUserPersistenceError)
         }
     }
 }
