@@ -4,10 +4,8 @@ import android.app.Application
 import com.brunocasado.randomemojianduserrepos.LocalEmojiPersistenceSource
 import com.brunocasado.randomemojianduserrepos.core.network.NetworkInfoImpl
 import com.brunocasado.randomemojianduserrepos.datasource.network.ApiService
-import com.brunocasado.randomemojianduserrepos.datasource.repository.EmojiRepository
-import com.brunocasado.randomemojianduserrepos.datasource.repository.EmojiRepositoryImpl
-import com.brunocasado.randomemojianduserrepos.datasource.repository.UserRepository
-import com.brunocasado.randomemojianduserrepos.datasource.repository.UserRepositoryImpl
+import com.brunocasado.randomemojianduserrepos.datasource.repository.*
+import com.brunocasado.randomemojianduserrepos.googlerepo.LocalRepoPersistenceSource
 import com.brunocasado.randomemojianduserrepos.useravatar.LocalUserPersistenceSource
 import dagger.Module
 import dagger.Provides
@@ -35,6 +33,19 @@ class RepositoryModule {
         application: Application
     ): UserRepository {
         return UserRepositoryImpl(
+            apiService,
+            persistenceSource,
+            NetworkInfoImpl(application.applicationContext)
+        )
+    }
+
+    @Provides
+    internal fun provideRepoRepository(
+        apiService: ApiService,
+        persistenceSource: LocalRepoPersistenceSource,
+        application: Application
+    ): RepoRepository {
+        return RepoRepositoryImpl(
             apiService,
             persistenceSource,
             NetworkInfoImpl(application.applicationContext)

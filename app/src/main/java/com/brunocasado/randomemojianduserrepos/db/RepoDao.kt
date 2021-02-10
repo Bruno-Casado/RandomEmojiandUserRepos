@@ -15,6 +15,6 @@ abstract class RepoDao {
     abstract suspend fun getPagedRepos(page: Int): List<Repo>
 
     companion object {
-        private const val PAGE_SIZE = 15
+        const val PAGE_SIZE = 15
     }
 }
