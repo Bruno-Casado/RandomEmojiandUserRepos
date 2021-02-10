@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.brunocasado.randomemojianduserrepos.core.BaseActivity
 import com.brunocasado.randomemojianduserrepos.databinding.ActivityMainBinding
 import com.brunocasado.randomemojianduserrepos.emojilist.EmojiListActivity
+import com.brunocasado.randomemojianduserrepos.useravatar.UserAvatarListActivity
 import com.bumptech.glide.Glide
 
 class MainActivity :
@@ -58,6 +59,13 @@ class MainActivity :
         viewModel.displayAvatarOnEmojiImageHolder = { userAvatar ->
             loadImageInto(userAvatar, binding.randomEmojiImageView)
         }
+        viewModel.openAvatarListActivity = {
+            openAvatarListActivity()
+        }
+    }
+
+    private fun openAvatarListActivity() {
+        startActivity(Intent(this, UserAvatarListActivity::class.java))
     }
 
     private fun showToast(text: String) {

@@ -3,6 +3,7 @@
     <string name="get_emoji_button">Get Emoji</string>
     <string name="get_random_emoji_button">Random Emoji</string>
     <string name="open_emoji_list_button">Emoji List</string>
+    <string name="open_avatar_list_button">Avatar List</string>
     <string name="network_connection_error_message">Verify your network connection and try again</string>
     <string name="persistence_error_message">Some error occurs on Database. Try again later</string>
     <string name="server_error_message">Server error. Try again later</string>
