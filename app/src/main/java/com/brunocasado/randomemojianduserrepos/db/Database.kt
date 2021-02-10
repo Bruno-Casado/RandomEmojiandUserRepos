@@ -20,4 +20,6 @@ abstract class Database : RoomDatabase() {
     abstract fun emojiDao(): EmojiDao
 
     abstract fun userDao(): UserDao
+
+    abstract fun repoDao(): RepoDao
 }

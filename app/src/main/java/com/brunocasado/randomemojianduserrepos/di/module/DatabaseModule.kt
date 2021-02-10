@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.brunocasado.randomemojianduserrepos.db.Database
 import com.brunocasado.randomemojianduserrepos.db.EmojiDao
+import com.brunocasado.randomemojianduserrepos.db.RepoDao
 import com.brunocasado.randomemojianduserrepos.db.UserDao
 import dagger.Module
 import dagger.Provides
@@ -27,4 +28,8 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideUserDao(database: Database): UserDao = database.userDao()
+
+    @Singleton
+    @Provides
+    fun provideRepoDao(database: Database): RepoDao = database.repoDao()
 }
