@@ -1,9 +1,7 @@
 package com.brunocasado.randomemojianduserrepos.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import com.brunocasado.randomemojianduserrepos.datasource.entity.User
 
 @Dao
@@ -13,4 +11,10 @@ abstract class UserDao {
 
     @Query("SELECT * FROM User WHERE login = :login")
     abstract suspend fun getUser(login: String): User
+
+    @Query("SELECT * FROM User")
+    abstract fun getUserList(): LiveData<List<User>>
+
+    @Delete
+    abstract suspend fun deleteUser(user: User)
 }
