@@ -1,13 +1,12 @@
 package com.brunocasado.randomemojianduserrepos.emojilist
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.brunocasado.randomemojianduserrepos.MainActivityViewModel
 import com.brunocasado.randomemojianduserrepos.R
+import com.brunocasado.randomemojianduserrepos.core.AndroidUtils
 import com.brunocasado.randomemojianduserrepos.core.BaseActivity
 import com.brunocasado.randomemojianduserrepos.databinding.ActivityEmojiListBinding
 
@@ -23,7 +22,8 @@ class EmojiListActivity :
     }
 
     private fun initBinding() {
-        binding.emojiRecyclerView.layoutManager = GridLayoutManager(this, calculateNoOfColumns())
+        binding.emojiRecyclerView.layoutManager =
+            GridLayoutManager(this, AndroidUtils().calculateNumberOfColumns(this, EMOJI_SIZE))
         listAdapter = EmojiListAdapter {
             viewModel.removeEmojiFromList(it)
         }
@@ -41,12 +41,6 @@ class EmojiListActivity :
         viewModel.showSuccessMessage = {
             Log.d("EmojiListActivity", "success")
         }
-    }
-
-    private fun calculateNoOfColumns(): Int {
-        val displayMetrics: DisplayMetrics = resources.displayMetrics
-        val screenWidthDp = displayMetrics.widthPixels / displayMetrics.density
-        return (screenWidthDp / EMOJI_SIZE).toInt()
     }
 
     companion object {
