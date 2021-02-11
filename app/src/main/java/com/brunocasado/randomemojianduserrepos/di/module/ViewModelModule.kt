@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.brunocasado.randomemojianduserrepos.MainActivityViewModel
 import com.brunocasado.randomemojianduserrepos.di.ViewModelFactory
 import com.brunocasado.randomemojianduserrepos.di.ViewModelKey
+import com.brunocasado.randomemojianduserrepos.googlerepo.RepoListViewModel
 import com.brunocasado.randomemojianduserrepos.useravatar.UserAvatarListViewModel
 import dagger.Binds
 import dagger.Module
@@ -22,6 +23,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(UserAvatarListViewModel::class)
     abstract fun bindUserAvatarListViewModel(userAvatarListViewModel: UserAvatarListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RepoListViewModel::class)
+    abstract fun bindRepoListViewModel(repoListViewModel: RepoListViewModel): ViewModel
 
     @Binds
     abstract fun bindsViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
