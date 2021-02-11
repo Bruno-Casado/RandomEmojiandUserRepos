@@ -1,6 +1,6 @@
 package com.brunocasado.randomemojianduserrepos.di.module
 
-import com.brunocasado.randomemojianduserrepos.EmojiListUseCase
+import com.brunocasado.randomemojianduserrepos.emojilist.EmojiListUseCase
 import com.brunocasado.randomemojianduserrepos.datasource.repository.EmojiRepository
 import com.brunocasado.randomemojianduserrepos.datasource.repository.RepoRepository
 import com.brunocasado.randomemojianduserrepos.datasource.repository.UserRepository

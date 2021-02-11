@@ -1,7 +1,7 @@
 package com.brunocasado.randomemojianduserrepos.di.module
 
 import android.app.Application
-import com.brunocasado.randomemojianduserrepos.LocalEmojiPersistenceSource
+import com.brunocasado.randomemojianduserrepos.emojilist.LocalEmojiPersistenceSource
 import com.brunocasado.randomemojianduserrepos.core.network.NetworkInfoImpl
 import com.brunocasado.randomemojianduserrepos.datasource.network.ApiService
 import com.brunocasado.randomemojianduserrepos.datasource.repository.*

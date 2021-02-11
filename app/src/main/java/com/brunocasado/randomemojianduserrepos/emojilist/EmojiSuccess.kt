@@ -1,4 +1,4 @@
-package com.brunocasado.randomemojianduserrepos
+package com.brunocasado.randomemojianduserrepos.emojilist
 
 import com.brunocasado.randomemojianduserrepos.core.exception.Success
 

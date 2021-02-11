@@ -1,8 +1,8 @@
 package com.brunocasado.randomemojianduserrepos.repository
 
-import com.brunocasado.randomemojianduserrepos.EmojiFailure
-import com.brunocasado.randomemojianduserrepos.EmojiPersistenceSource
-import com.brunocasado.randomemojianduserrepos.EmojiSuccess
+import com.brunocasado.randomemojianduserrepos.emojilist.EmojiFailure
+import com.brunocasado.randomemojianduserrepos.emojilist.EmojiPersistenceSource
+import com.brunocasado.randomemojianduserrepos.emojilist.EmojiSuccess
 import com.brunocasado.randomemojianduserrepos.core.Either
 import com.brunocasado.randomemojianduserrepos.core.exception.Failure
 import com.brunocasado.randomemojianduserrepos.core.network.NetworkInfo

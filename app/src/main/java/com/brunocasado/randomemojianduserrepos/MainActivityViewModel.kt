@@ -9,6 +9,8 @@ import com.brunocasado.randomemojianduserrepos.core.Either
 import com.brunocasado.randomemojianduserrepos.core.exception.Failure
 import com.brunocasado.randomemojianduserrepos.datasource.entity.Emoji
 import com.brunocasado.randomemojianduserrepos.datasource.entity.User
+import com.brunocasado.randomemojianduserrepos.emojilist.EmojiFailure
+import com.brunocasado.randomemojianduserrepos.emojilist.EmojiListUseCase
 import com.brunocasado.randomemojianduserrepos.useravatar.UserUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

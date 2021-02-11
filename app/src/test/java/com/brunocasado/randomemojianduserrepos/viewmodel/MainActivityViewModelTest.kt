@@ -2,8 +2,8 @@ package com.brunocasado.randomemojianduserrepos.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.brunocasado.randomemojianduserrepos.EmojiFailure
-import com.brunocasado.randomemojianduserrepos.EmojiListUseCase
+import com.brunocasado.randomemojianduserrepos.emojilist.EmojiFailure
+import com.brunocasado.randomemojianduserrepos.emojilist.EmojiListUseCase
 import com.brunocasado.randomemojianduserrepos.MainActivityViewModel
 import com.brunocasado.randomemojianduserrepos.core.Either
 import com.brunocasado.randomemojianduserrepos.core.exception.Failure
