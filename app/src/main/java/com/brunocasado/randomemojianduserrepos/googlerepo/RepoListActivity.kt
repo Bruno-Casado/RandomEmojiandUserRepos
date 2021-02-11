@@ -45,5 +45,14 @@ class RepoListActivity :
         viewModel.repos.observe(this, {
             listAdapter.submitList(it)
         })
+        viewModel.showNetworkConnectionError = {
+            showNetworkError()
+        }
+        viewModel.showPersistenceError = {
+            showPersistenceError()
+        }
+        viewModel.showServerError = {
+            showServerError()
+        }
     }
 }

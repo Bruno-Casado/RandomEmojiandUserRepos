@@ -15,6 +15,10 @@ class RepoListViewModel @Inject constructor(
     private val repoListUseCase: RepoListUseCase
 ) : ViewModel() {
 
+    lateinit var showNetworkConnectionError: () -> Unit
+    lateinit var showPersistenceError: () -> Unit
+    lateinit var showServerError: () -> Unit
+
     private val _repos = MutableLiveData<List<Repo>>().apply { value = emptyList() }
     val repos: LiveData<List<Repo>> = _repos
 
@@ -49,7 +53,14 @@ class RepoListViewModel @Inject constructor(
     }
 
     private fun handleError(failure: Failure) {
-        dataLoadingError = failure
+        when (failure) {
+            Failure.NetworkConnection -> showNetworkConnectionError()
+            Failure.ServerError -> showServerError()
+            is RepoFailure.LastPageReached -> dataLoadingError = failure
+            is RepoFailure.GetRepoListPersistenceError -> showPersistenceError()
+            is RepoFailure.InsertRepoListPersistenceError -> showPersistenceError()
+            else -> showServerError()
+        }
     }
 
     private fun handleSuccess(repoList: List<Repo>) {
