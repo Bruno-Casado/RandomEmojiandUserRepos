@@ -117,7 +117,7 @@ class MainActivityViewModel @Inject constructor(
             Failure.NetworkConnection -> showNetworkConnectionError()
             is EmojiFailure.SaveEmojiListPersistenceError -> showPersistenceError()
             is EmojiFailure.GetEmojiListPersistenceError -> showPersistenceError()
-            is EmojiFailure.ServerError -> showServerError()
+            is Failure.ServerError -> showServerError()
             else -> showServerError()
         }
     }

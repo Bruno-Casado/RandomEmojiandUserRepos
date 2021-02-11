@@ -59,7 +59,7 @@ class EmojiRepositoryImpl @Inject constructor(
                 val response = apiService.getEmojiList()
                 Either.Right(response.emojiList)
             } catch (ex: Exception) {
-                Either.Left(EmojiFailure.ServerError)
+                Either.Left(Failure.ServerError)
             }
         }
     }

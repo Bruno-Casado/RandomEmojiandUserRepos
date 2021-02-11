@@ -97,7 +97,7 @@ class MainActivityViewModelTest {
         viewModel.showServerError = mock()
 
         runBlocking {
-            whenever(emojiListUseCase.invoke()).thenReturn(Either.Left(EmojiFailure.ServerError))
+            whenever(emojiListUseCase.invoke()).thenReturn(Either.Left(Failure.ServerError))
             assert(viewModel.isLoading.value == true)
         }
 
