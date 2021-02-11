@@ -14,7 +14,7 @@ import dagger.Provides
 @Module
 class RepositoryModule {
     @Provides
-    internal fun providesEmojiRepository(
+    internal fun provideEmojiRepository(
         apiService: ApiService,
         persistenceSource: LocalEmojiPersistenceSource,
         application: Application
