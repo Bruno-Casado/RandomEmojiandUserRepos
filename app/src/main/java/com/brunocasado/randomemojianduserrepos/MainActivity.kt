@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.brunocasado.randomemojianduserrepos.core.BaseActivity
 import com.brunocasado.randomemojianduserrepos.databinding.ActivityMainBinding
 import com.brunocasado.randomemojianduserrepos.emojilist.EmojiListActivity
+import com.brunocasado.randomemojianduserrepos.googlerepo.RepoListActivity
 import com.brunocasado.randomemojianduserrepos.useravatar.UserAvatarListActivity
 import com.bumptech.glide.Glide
 
@@ -62,10 +63,17 @@ class MainActivity :
         viewModel.openAvatarListActivity = {
             openAvatarListActivity()
         }
+        viewModel.openRepoListActivity = {
+            openRepoListActivity()
+        }
     }
 
     private fun openAvatarListActivity() {
         startActivity(Intent(this, UserAvatarListActivity::class.java))
+    }
+
+    private fun openRepoListActivity() {
+        startActivity(Intent(this, RepoListActivity::class.java))
     }
 
     private fun showToast(text: String) {

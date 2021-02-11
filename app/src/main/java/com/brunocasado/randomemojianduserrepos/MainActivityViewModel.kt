@@ -28,6 +28,7 @@ class MainActivityViewModel @Inject constructor(
     lateinit var openEmojiListActivityAction: () -> Unit
     lateinit var displayAvatarOnEmojiImageHolder: (String) -> Unit
     lateinit var openAvatarListActivity: () -> Unit
+    lateinit var openRepoListActivity: () -> Unit
 
     private val _emojis = MutableLiveData<List<Emoji>>().apply { value = emptyList() }
     val emojis: LiveData<List<Emoji>> = _emojis
@@ -100,6 +101,10 @@ class MainActivityViewModel @Inject constructor(
 
     fun openAvatarList() = View.OnClickListener {
         openAvatarListActivity()
+    }
+
+    fun openRepoList() = View.OnClickListener {
+        openRepoListActivity()
     }
 
     private fun handleGetEmojiListSuccess(emojiList: List<Emoji>) {

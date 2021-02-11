@@ -31,6 +31,7 @@
             android:id="@+id/getEmojiButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin"
             android:enabled="@{!viewModel.isLoading()}"
             android:onClick="@{() -> viewModel.getEmoji()}"
             android:text="@string/get_emoji_button"
@@ -44,12 +45,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin"
             android:onClick="@{viewModel.openEmojiListActivity()}"
             android:text="@string/open_emoji_list_button"
+            app:layout_constraintBottom_toTopOf="@id/searchUserNameInput"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -68,7 +69,8 @@
             android:hint="@string/search_input_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/openEmojiListButton" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageButton
             android:id="@+id/searchUserNameButton"
@@ -90,6 +92,17 @@
             android:onClick="@{viewModel.openAvatarList()}"
             android:text="@string/open_avatar_list_button"
             app:layout_constraintTop_toBottomOf="@id/searchUserNameInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/openRepoListButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:onClick="@{viewModel.openRepoList()}"
+            android:text="@string/open_repo_list_button"
+            app:layout_constraintTop_toBottomOf="@id/openAvatarListButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
