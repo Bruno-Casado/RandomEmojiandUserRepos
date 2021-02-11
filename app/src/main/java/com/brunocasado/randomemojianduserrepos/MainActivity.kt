@@ -36,13 +36,13 @@ class MainActivity :
 
     private fun initViewModelActions() {
         viewModel.showNetworkConnectionError = {
-            showToast(getString(R.string.network_connection_error_message))
+            showNetworkError()
         }
         viewModel.showPersistenceError = {
-            showToast(getString(R.string.persistence_error_message))
+            showPersistenceError()
         }
         viewModel.showServerError = {
-            showToast(getString(R.string.server_error_message))
+            showServerError()
         }
         viewModel.showSuccessMessage = {
             showToast(getString(R.string.success_message))
@@ -74,10 +74,6 @@ class MainActivity :
 
     private fun openRepoListActivity() {
         startActivity(Intent(this, RepoListActivity::class.java))
-    }
-
-    private fun showToast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 
     private fun loadImageInto(url: String, imageView: ImageView) {
