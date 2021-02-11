@@ -1,4 +1,4 @@
-package com.brunocasado.randomemojianduserrepos.di
+package com.brunocasado.randomemojianduserrepos.di.module
 
 import com.brunocasado.randomemojianduserrepos.MainActivity
 import com.brunocasado.randomemojianduserrepos.emojilist.EmojiListActivity
@@ -9,7 +9,7 @@ import dagger.android.ContributesAndroidInjector
 
 @Suppress("unused")
 @Module
-abstract class MainActivityModule {
+abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract fun contributeMainActivity(): MainActivity
 
