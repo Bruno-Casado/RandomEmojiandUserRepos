@@ -11,6 +11,7 @@ import com.brunocasado.randomemojianduserrepos.datasource.entity.Emoji
 import com.brunocasado.randomemojianduserrepos.helper.MainCoroutineRule
 import com.brunocasado.randomemojianduserrepos.helper.mock
 import com.brunocasado.randomemojianduserrepos.helper.whenever
+import com.brunocasado.randomemojianduserrepos.useravatar.UserUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -34,13 +35,17 @@ class MainActivityViewModelTest {
     @Mock
     private lateinit var emojiListUseCase: EmojiListUseCase
 
+    @Mock
+    private lateinit var userUserCase: UserUseCase
+
     private lateinit var viewModel: MainActivityViewModel
 
     @Before
     fun setup() {
         emojiListUseCase = mock()
+        userUserCase = mock()
         mainCoroutineRule.pauseDispatcher()
-        viewModel = MainActivityViewModel(emojiListUseCase)
+        viewModel = MainActivityViewModel(emojiListUseCase, userUserCase)
     }
 
     @Test
