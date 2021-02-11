@@ -23,13 +23,13 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpCache(application: Application): Cache {
+    fun provideOkHttpCache(application: Application): Cache {
         val cacheSize = 10L * 1024L * 1024L
         return Cache(application.cacheDir, cacheSize)
     }
 
     @Provides
-    fun providesHttpLoggingInterceptor(): HttpLoggingInterceptor {
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val level: HttpLoggingInterceptor.Level = if (BuildConfig.BUILD_TYPE == "debug") {
             HttpLoggingInterceptor.Level.BODY
         } else {
@@ -41,7 +41,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(
+    fun provideOkHttpClient(
         cache: Cache,
         httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
@@ -58,7 +58,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesGsonConvertFactory(): GsonConverterFactory {
+    fun provideGsonConvertFactory(): GsonConverterFactory {
         return GsonConverterFactory.create(GsonHandler.gson)
     }
 
