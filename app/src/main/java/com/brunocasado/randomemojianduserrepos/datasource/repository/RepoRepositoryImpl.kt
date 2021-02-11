@@ -12,7 +12,6 @@ import com.brunocasado.randomemojianduserrepos.googlerepo.RepoPersistenceSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 class RepoRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
@@ -20,7 +19,7 @@ class RepoRepositoryImpl @Inject constructor(
     private val networkInfo: NetworkInfo
 ) : RepoRepository {
 
-    private var lastPage = 0
+    private var lastPage = -1
 
     override suspend fun getPagedRepos(page: Int): Either<Failure, List<Repo>> {
         val repos = getPagedReposFromDisk(page)
@@ -47,7 +46,7 @@ class RepoRepositoryImpl @Inject constructor(
     }
 
     private fun shouldFetchFromNetwork(repos: List<Repo>): Boolean {
-        return lastPage == 0 && repos.isEmpty()
+        return lastPage == -1 && repos.isEmpty()
     }
 
     private suspend fun handleNetworkRequest(
@@ -76,7 +75,7 @@ class RepoRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             try {
                 val response = apiService.getGoogleRepos()
-                lastPage = (response.size / RepoDao.PAGE_SIZE).toFloat().roundToInt()
+                lastPage = (response.size / RepoDao.PAGE_SIZE)
                 Either.Right(response)
             } catch (ex: Exception) {
                 Either.Left(Failure.ServerError)
@@ -84,7 +83,7 @@ class RepoRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun insertRepoListToDisk(repos: List<Repo>) : Either<Failure, Success> {
+    private suspend fun insertRepoListToDisk(repos: List<Repo>): Either<Failure, Success> {
         return withContext(Dispatchers.IO) {
             persistenceSource.insertRepos(repos)
         }
