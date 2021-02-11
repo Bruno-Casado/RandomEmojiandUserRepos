@@ -33,7 +33,16 @@ class UserAvatarListActivity :
             listAdapter.submitList(it)
         })
         viewModel.showDeleteUserSuccess = {
-            Toast.makeText(this, "Delete success", Toast.LENGTH_LONG).show()
+            showToast("Delete success")
+        }
+        viewModel.showNetworkConnectionError = {
+            showNetworkError()
+        }
+        viewModel.showPersistenceError = {
+            showPersistenceError()
+        }
+        viewModel.showServerError = {
+            showServerError()
         }
     }
 

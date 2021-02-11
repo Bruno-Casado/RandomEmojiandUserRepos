@@ -15,6 +15,9 @@ class UserAvatarListViewModel @Inject constructor(
     private val deleteUserUseCase: DeleteUserUseCase
 ) : ViewModel() {
 
+    lateinit var showNetworkConnectionError: () -> Unit
+    lateinit var showPersistenceError: () -> Unit
+    lateinit var showServerError: () -> Unit
     lateinit var users: LiveData<List<User>>
     lateinit var showDeleteUserSuccess: () -> Unit
 
@@ -29,14 +32,10 @@ class UserAvatarListViewModel @Inject constructor(
             }
             val deleteUserFutureResult = deleteUserFuture.await()
             when (deleteUserFutureResult) {
-                is Either.Left -> showDeleteUserError(deleteUserFutureResult.a)
+                is Either.Left -> handleError(deleteUserFutureResult.a)
                 is Either.Right -> showDeleteUserSuccess()
             }
         }
-    }
-
-    private fun showDeleteUserError(failure: Failure) {
-        handleUserListError(failure)
     }
 
     private fun loadUserList() {
@@ -46,17 +45,19 @@ class UserAvatarListViewModel @Inject constructor(
             }
             val userListFutureResult = userListFuture.await()
             when (userListFutureResult) {
-                is Either.Left -> handleUserListError(userListFutureResult.a)
+                is Either.Left -> handleError(userListFutureResult.a)
                 is Either.Right -> handleUserListSuccess(userListFutureResult.b)
             }
         }
     }
 
-    private fun handleUserListError(failure: Failure) {
+    private fun handleError(failure: Failure) {
         when (failure) {
-            Failure.NetworkConnection -> TODO()
-            Failure.ServerError -> TODO()
-            is Failure.FeatureFailure -> TODO()
+            Failure.NetworkConnection -> showNetworkConnectionError()
+            Failure.ServerError -> showServerError()
+            is UserFailure.GetUserListPersistenceError -> showPersistenceError()
+            is UserFailure.DeleteUserPersistenceError -> showPersistenceError()
+            else -> showServerError()
         }
     }
 
