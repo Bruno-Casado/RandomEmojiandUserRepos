@@ -11,6 +11,7 @@ import com.brunocasado.randomemojianduserrepos.datasource.entity.Emoji
 import com.brunocasado.randomemojianduserrepos.datasource.entity.User
 import com.brunocasado.randomemojianduserrepos.emojilist.EmojiFailure
 import com.brunocasado.randomemojianduserrepos.emojilist.EmojiListUseCase
+import com.brunocasado.randomemojianduserrepos.useravatar.UserFailure
 import com.brunocasado.randomemojianduserrepos.useravatar.UserUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -57,7 +58,7 @@ class MainActivityViewModel @Inject constructor(
                     handleGetEmojiListSuccess(emojiListFutureResult.b)
                 }
                 is Either.Left -> {
-                    handleGetEmojiListError(emojiListFutureResult.a)
+                    handleError(emojiListFutureResult.a)
                 }
             }
             _isLoading.value = false
@@ -94,11 +95,11 @@ class MainActivityViewModel @Inject constructor(
 
             val userFutureResult = userFuture.await()
             when (userFutureResult) {
-                is Either.Left -> handleGetUserError(userFutureResult.a)
+                is Either.Left -> handleError(userFutureResult.a)
                 is Either.Right -> handleGetUserSuccess(userFutureResult.b)
             }
+            _isLoading.value = false
         }
-        _isLoading.value = false
     }
 
     fun openAvatarList() = View.OnClickListener {
@@ -114,21 +115,17 @@ class MainActivityViewModel @Inject constructor(
         showSuccessMessage()
     }
 
-    private fun handleGetEmojiListError(failure: Failure) {
-        when (failure) {
-            Failure.NetworkConnection -> showNetworkConnectionError()
-            is EmojiFailure.SaveEmojiListPersistenceError -> showPersistenceError()
-            is EmojiFailure.GetEmojiListPersistenceError -> showPersistenceError()
-            is Failure.ServerError -> showServerError()
-            else -> showServerError()
-        }
-    }
-
-    private fun handleGetUserError(failure: Failure) {
+    private fun handleError(failure: Failure) {
         when (failure) {
             Failure.NetworkConnection -> showNetworkConnectionError()
             Failure.ServerError -> showServerError()
-            is Failure.FeatureFailure -> showPersistenceError()
+            is EmojiFailure.SaveEmojiListPersistenceError -> showPersistenceError()
+            is EmojiFailure.GetEmojiListPersistenceError -> showPersistenceError()
+            is UserFailure.SaveUserPersistenceError -> showPersistenceError()
+            is UserFailure.GetUserPersistenceError -> showPersistenceError()
+            is UserFailure.DeleteUserPersistenceError -> showPersistenceError()
+            is UserFailure.GetUserListPersistenceError -> showPersistenceError()
+            else -> showServerError()
         }
     }
 
